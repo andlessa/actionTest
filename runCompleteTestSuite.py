@@ -14,7 +14,12 @@ import sys
 import unittest
 
 def run():
-    unittest.TextTestRunner().run( unittest.TestLoader().discover("./") )
+    allTests = unittest.TestLoader().discover("./")
+    r = unittest.TextTestRunner()
+    r.shouldStop = True
+    ret = r.run(allTests)
+    if not ret.wasSuccessful():
+        raise AssertionError("%i tests failed" %len(ret.failures))
 
 if __name__ == "__main__":
     run()
